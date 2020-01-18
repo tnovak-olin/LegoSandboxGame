@@ -33,7 +33,7 @@ public static class Noise
         {
             //pull offsets from the random number generator
             float offsetX = prng.Next(-100000, 100000)+offset.x;
-            float offsetY = prng.Next(-100000, 100000)+offset.y;
+            float offsetY = prng.Next(-100000, 100000)-offset.y;
             //build the offset vector from the random values
             octaveOffsets[o] = new Vector2(offsetX, offsetY);
         }
@@ -70,9 +70,9 @@ public static class Noise
                 //iterate through the octaves
                 for (int o = 0; o <octaves; o++)
                 {
-                    //find the sampeling cordinates in the perlin noise function accounting for the change in frequency and account to make scaling occur form the center of the map
-                    float sampleX = (x-halfWidth) / scale * frequency + octaveOffsets[o].x;
-                    float sampleY = (y-halfHeight) / scale * frequency + octaveOffsets[o].y;
+                    //find the sampeling cordinates in the perlin noise function accounting for the change in frequency and account to make scaling occur from the center of the map
+                    float sampleX = (x- halfWidth + octaveOffsets[o].x) / scale * frequency;
+                    float sampleY = (y-halfHeight + octaveOffsets[o].y) / scale * frequency;
 
                     //find the respecive noise value then shift into the range -1 to 1 so that the values can be negative and decrease the overall height
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
